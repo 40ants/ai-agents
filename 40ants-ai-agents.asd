@@ -9,5 +9,6 @@
   :class :40ants-asdf-system
   :defsystem-depends-on ("40ants-asdf-system")
   :pathname "src"
-  :depends-on ("40ants-ai-agents/core")
+  :depends-on ("40ants-ai-agents/core"
+               "40ants-ai-agents/ai-agent")
   :in-order-to ((test-op (test-op "40ants-ai-agents-tests"))))
