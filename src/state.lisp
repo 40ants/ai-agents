@@ -5,6 +5,8 @@
                 #:->)
   (:import-from #:40ants-ai-agents/message
                 #:message)
+  (:import-from #:40ants-ai-agents/generics
+                #:add-message)
   (:export #:state
            #:state-messages))
 (in-package #:40ants-ai-agents/state)
@@ -22,3 +24,8 @@
 (defun state (messages)
   (make-instance 'state
                  :messages messages))
+
+
+(defmethod add-message ((state state) message)
+  (state (list* message
+                (state-messages state))))

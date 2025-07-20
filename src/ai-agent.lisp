@@ -53,7 +53,7 @@
     (list (cons :role "user")
           (cons :content (user-message-text message))))
   (:method ((message ai-message))
-    (list (cons :role "ai")
+    (list (cons :role "assistant")
           (cons :content (ai-message-text message)))))
 
 
@@ -66,5 +66,8 @@
                              (state-messages state)))))
          (response (completions:get-completion (%agent-completer agent)
                                                messages
-                                               :max-tokens 100)))
-    (values response)))
+                                               ;; TODO: make this agent property
+                                               :max-tokens 1000)))
+
+    (40ants-ai-agents/generics:add-message state
+                                           (ai-message response))))

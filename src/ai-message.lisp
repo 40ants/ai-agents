@@ -16,3 +16,9 @@
 (defun ai-message (text)
   (make-instance 'ai-message
                  :text text))
+
+
+(defmethod print-object ((obj ai-message) stream)
+  (print-unreadable-object (obj stream :type t)
+    (format stream "~A"
+            (ai-message-text obj))))

@@ -50,10 +50,29 @@
 
 (defun test-agent (text)
   (let* ((40ants-ai-agents/vars:*api-key* (uiop:getenv "API_KEY"))
-         (agent (ai-agent "You MUST answer only on questions about Python programming language. If user is asking about unrelated theme, tell him you are consulting only about Python programming language. ALWAYS be as consise as possible."))
+         (agent (ai-agent "You MUST answer only on questions about Lisp
+  programming language. If user is asking about unrelated theme, tell
+  him you are consulting only about Lisp programming language. ALWAYS be
+  as consise as possible."
+                          :tools '(search-lisp-library install-lisp-library)))
          (state (state (list (user-message text))))
          (response (process agent state)))
     response))
 
 
-(test-agent "How long a python could be?")
+
+(defun test-agent-chain (post-theme)
+  (let* ((40ants-ai-agents/vars:*api-key* (uiop:getenv "API_KEY"))
+         (planner (ai-agent "Ты техноблоггер, ведущий Telegram канал про
+  стартапы и программирование на Common Lisp. Составь план поста на
+  заданную тему. План должен иметь от трех до пяти пунктов."))
+         (writer (ai-agent "Ты техноблоггер, ведущий Telegram канал про
+  стартапы и программирование на Common Lisp. Пройди по каждому пункту
+  плана, и напиши соответствующую секуцию поста в блог."))
+         (state (state (list (user-message post-theme))))
+         (state-with-plan (process planner state))
+         (final-state (process writer state-with-plan)))
+    final-state))
+
+
+;; (test-agent "How long a python could be?")
