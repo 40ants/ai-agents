@@ -40,6 +40,7 @@
 
 (defsection @index (:title "40ants-ai-agents - A framework for building AI agent networks in Common Lisp."
                     :ignore-words ("JSON"
+                                   "AI"
                                    "HTTP"
                                    "TODO"
                                    "Unlicense"
