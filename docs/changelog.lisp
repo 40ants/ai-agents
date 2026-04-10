@@ -9,5 +9,7 @@
                               "ASDF"
                               "REPL"
                               "HTTP"))
-  (0.1.0 2023-02-05
+  (0.2.0 2026-04-10
+         "* Exported 40ANTS-AI-AGENTS/AI-AGENT:AGENT-COMPLETER reader.")
+  (0.1.0 2025-06-30
          "* Initial version."))

@@ -17,13 +17,14 @@
   (:import-from #:40ants-ai-agents/user-message
                 #:user-message-text
                 #:user-message)
-  (:export #:ai-agent))
+  (:export #:ai-agent
+           #:agent-completer))
 (in-package #:40ants-ai-agents/ai-agent)
 
 
 (defclass ai-agent ()
   ((completer :initarg :completer
-              :reader %agent-completer)
+              :reader agent-completer)
    (prompt :initarg :prompt
            :initform ""
            :type string
@@ -64,7 +65,7 @@
                     (mapcar #'to-api-message
                             (reverse
                              (state-messages state)))))
-         (response (completions:get-completion (%agent-completer agent)
+         (response (completions:get-completion (agent-completer agent)
                                                messages
                                                ;; TODO: make this agent property
                                                :max-tokens 1000)))
