@@ -1,0 +1,333 @@
+<html lang=en>
+ <head>
+  <meta charset=UTF-8><meta name=viewport
+      content="width=device-width, initial-scale=1">
+  <title>40ants-ai-agents - A framework for building AI agent networks in Common 
+   Lisp.</title>
+  <link rel=alternate
+        href="https://40ants.com/ai-agents/changelog.xml"
+        type="application/rss+xml">
+  <link rel=stylesheet type="text/css"
+        href=theme.css>
+  <script type="text/javascript" src=jquery.js></script>
+  <script type="text/javascript" src=toc.js></script>
+  <script type="text/javascript">$(document).ready(function() {$('a:has(img)').css('border-bottom', 'none')})</script>
+  <link rel=stylesheet type="text/css"
+      href=highlight.min.css>
+  <script type="text/javascript"
+          src=highlight.min.js></script>
+  <script type="text/javascript">hljs.highlightAll();</script>
+<style type="text/css">
+/* Стили для сворачиваемого меню */
+.sidebar ul ul {
+  display: none; /* Скрываем все подменю по умолчанию */
+  margin-left: 0.5em;
+}
+
+.sidebar li.expanded > ul {
+  display: block; /* Показываем подменю для развернутых элементов */
+}
+
+/* Стили для пунктов с подменю */
+.sidebar li.has-children > a {
+  cursor: pointer;
+  position: relative;
+  padding-left: 1.2em;
+}
+
+.sidebar li.has-children > p > a {
+  position: relative;
+  left: -1rem;
+}
+
+.sidebar li.has-children > p > a::before {
+  content:"►";
+}
+
+.sidebar li.has-children.expanded > p > a::before {
+  content: "▼";
+  position: relative;
+  left: -0.08rem;
+}
+
+/* Подсветка активного пункта */
+.sidebar li.active > a {
+  font-weight: bold;
+}
+
+/* Если активная страница находится в подменю, раскрываем родителя */
+.sidebar li.active-parent {
+  font-weight: normal;
+}
+
+.sidebar li.active-parent > ul {
+  display: block;
+}
+</style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL71WXK73K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FL71WXK73K');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+       m[i].l=1*new Date();
+       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+       k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+       (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+       ym(42462884, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true
+       });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/42462884" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+ </head>
+ <body>
+  <div class=page><a id=fork-me href="https://github.com/40ants/ai-agents">Fork me on GitHub</a>
+   <div class=navbar>
+    <div class=navbar-inner>
+     <a class=brand href="/">
+      <img class=logo
+           src="https://40ants.com/img/logo.svg"></a>
+     <ul class=nav>
+      <li><a href="/posts/">Blog</a>
+      <li><a href="/ru/posts/">Blog (RU)</a>
+      <li><a href="/tips/">Lisp Tips</a>
+      <li><a href="/projects/">Our Projects</a>
+      <li><a href="/about/">About</a>
+     </ul>
+    </div>
+   </div>
+   <input type=checkbox id=sidebar-check>
+   <label for=sidebar-check>
+    <div id=sidebar-trigger>
+     <span></span><span></span><span></span>
+    </div></label><div class=sidebar><div class=header><form class=search method=GET action="search/">
+      <input type=text name=q>
+      <input type=submit value=Search><span id=search-progress></span>
+     </form>
+    </div><div class=content><div class=page-toc><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ants-ai-agents - A framework for building AI agent networks in Common Lisp.</a></p><ul><li><p><a href="#40-ants-ai-agents-asdf-system-details" data-document="" data-node="40-ants-ai-agents-asdf-system-details">40ANTS-AI-AGENTS ASDF System Details</a></p></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Installation</a></p></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Usage</a></p></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">API</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/AI-AGENT</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Classes</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-24AI-AGENT-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-24AI-AGENT-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">AI-AGENT</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Functions</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/AI-MESSAGE</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Classes</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-24AI-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-24AI-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">AI-MESSAGE</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Functions</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FGENERICS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FGENERICS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/GENERICS</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FGENERICS-3FGenerics-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FGENERICS-3FGenerics-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Generics</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/MESSAGE</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FMESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FMESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Classes</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-24MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-24MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">MESSAGE</a></p></li></ul></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/STATE</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Classes</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-24STATE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-24STATE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">STATE</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Functions</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/USER-MESSAGE</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Classes</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-24USER-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-24USER-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">USER-MESSAGE</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Functions</a></p></li></ul></li><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FVARS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FVARS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">40ANTS-AI-AGENTS/VARS</a></p><ul><li><p><a href="#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FVARS-3FVariables-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FVARS-3FVariables-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">Variables</a></p></li></ul></li></ul></li></ul></li><li><p><a href="changelog/#x-2840ANTS-AI-AGENTS-DOCS-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29" data-document="changelog/" data-node="x-2840ANTS-AI-AGENTS-DOCS-2FCHANGELOG-3A-40CHANGELOG-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29">ChangeLog</a></p></li></ul>
+     </div>
+    </div><div class=footer>
+     <a href="https://40ants.com/doc">[generated by 40ANTS-DOC]</a>
+    </div>
+   </div><div class=content role=main><h1>40ants-ai-agents - A framework for building AI agent networks in Common Lisp.<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-40INDEX-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h1><h2 id="40-ants-ai-agents-asdf-system-details">40ANTS-AI-AGENTS ASDF System Details</h2><ul><li><p>Description: A framework for building <code>AI</code> agent networks in Common Lisp.</p></li><li><p>Licence: Unlicense</p></li><li><p>Author: Alexander Artemenko &lt;svetlyak.40wt@gmail.com&gt;</p></li><li><p>Homepage: <a href="https://40ants.com/ai-agents/">https://40ants.com/ai-agents/</a></p></li><li><p>Bug tracker: <a href="https://github.com/40ants/ai-agents/issues">https://github.com/40ants/ai-agents/issues</a></p></li><li><p>Source control: <a href="https://github.com/40ants/ai-agents">GIT</a></p></li><li><p>Depends on: <a href="https://quickdocs.org/completions">completions</a>, <a href="https://quickdocs.org/serapeum">serapeum</a></p></li></ul><p><a href="https://github.com/40ants/ai-agents/actions"><img src="https://github-actions.40ants.com/40ants/ai-agents/matrix.svg?only=ci.run-tests"/></a></p><p><img src="http://quickdocs.org/badge/40ants-ai-agents.svg"/></p><h2>Installation<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40INSTALLATION-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p>You can install this library from Quicklisp, but you want to receive updates quickly, then install it from Ultralisp.org:</p><pre><code class="">(ql-dist:install-dist &quot;http://dist.ultralisp.org/&quot;
+                      :prompt nil)
+(ql:quickload :40ants-ai-agents)</code></pre><h2>Usage<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40USAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><p><code>TODO</code>: Write a library description. Put some examples here.</p><h2>API<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-40API-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h2><h3>40ANTS-AI-AGENTS/AI-AGENT<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-agent.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-AGENT-22-29-20PACKAGE-29 id=x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-AGENT-22-29-20PACKAGE-29>40ants-ai-agents/ai-agent</a></div></div><a class=bullet-link href=#x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-AGENT-22-29-20PACKAGE-29></a></div></div><h4>Classes<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><h5>AI-AGENT<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-24AI-AGENT-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-AGENT-24AI-AGENT-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h5><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-agent.lisp#L25">class</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20CLASS-29 id=x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20CLASS-29>40ants-ai-agents/ai-agent:ai-agent</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20CLASS-29></a></div></div><p><b>Readers</b></p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-agent.lisp#L26">reader</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAGENT-COMPLETER-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-29-29 id=x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAGENT-COMPLETER-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-29-29>40ants-ai-agents/ai-agent:agent-completer</a></div><div class=object-args><span class=locative-args></span><span class=locative-args>(:completer)</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAGENT-COMPLETER-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-29-29></a></div></div><h4>Functions<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-agent.lisp#L58">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20FUNCTION-29>40ants-ai-agents/ai-agent:ai-agent</a></div><div class=object-args><span class=locative-args>PROMPT &amp;KEY TOOLS (MODEL &quot;deepseek-chat&quot;) ENDPOINT</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20FUNCTION-29></a></div><div class=bullet-content><p>Create an <code>AI</code> agent with the given system <code>PROMPT</code> and optional <code>TOOLS</code> list.
+<code>MODEL</code> selects the <code>LLM</code> model (default: &quot;deepseek-chat&quot;).
+<code>ENDPOINT</code> overrides the <code>API</code> <code>URL</code>; when nil the default for <code>MODEL</code> is used.</p></div></div><h3>40ANTS-AI-AGENTS/AI-MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-message.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2827-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-MESSAGE-22-29-20PACKAGE-29 id=x-28-23A-28-2827-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-MESSAGE-22-29-20PACKAGE-29>40ants-ai-agents/ai-message</a></div></div><a class=bullet-link href=#x-28-23A-28-2827-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-MESSAGE-22-29-20PACKAGE-29></a></div></div><h4>Classes<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><h5>AI-MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-24AI-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FAI-MESSAGE-24AI-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h5><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-message.lisp#L10">class</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20CLASS-29 id=x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20CLASS-29>40ants-ai-agents/ai-message:ai-message</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20CLASS-29></a></div></div><p><b>Readers</b></p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-message.lisp#L11">reader</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-29-29 id=x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-29-29>40ants-ai-agents/ai-message:ai-message-text</a></div><div class=object-args><span class=locative-args></span><span class=locative-args>(:text)</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-29-29></a></div></div><h4>Functions<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/ai-message.lisp#L16">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20FUNCTION-29>40ants-ai-agents/ai-message:ai-message</a></div><div class=object-args><span class=locative-args>text</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20FUNCTION-29></a></div></div><h3>40ANTS-AI-AGENTS/GENERICS<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FGENERICS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FGENERICS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/generics.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FGENERICS-22-29-20PACKAGE-29 id=x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FGENERICS-22-29-20PACKAGE-29>40ants-ai-agents/generics</a></div></div><a class=bullet-link href=#x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FGENERICS-22-29-20PACKAGE-29></a></div></div><h4>Generics<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FGENERICS-3FGenerics-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FGENERICS-3FGenerics-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/generics.lisp#L12">generic-function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FGENERICS-3AADD-MESSAGE-20GENERIC-FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FGENERICS-3AADD-MESSAGE-20GENERIC-FUNCTION-29>40ants-ai-agents/generics:add-message</a></div><div class=object-args><span class=locative-args>state message</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FGENERICS-3AADD-MESSAGE-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Adds a message to the state and returns the new state object.</p></div></div><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/generics.lisp#L8">generic-function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FGENERICS-3APROCESS-20GENERIC-FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FGENERICS-3APROCESS-20GENERIC-FUNCTION-29>40ants-ai-agents/generics:process</a></div><div class=object-args><span class=locative-args>agent state</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FGENERICS-3APROCESS-20GENERIC-FUNCTION-29></a></div><div class=bullet-content><p>Processing state by the agent.</p></div></div><h3>40ANTS-AI-AGENTS/MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/message.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2824-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FMESSAGE-22-29-20PACKAGE-29 id=x-28-23A-28-2824-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FMESSAGE-22-29-20PACKAGE-29>40ants-ai-agents/message</a></div></div><a class=bullet-link href=#x-28-23A-28-2824-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FMESSAGE-22-29-20PACKAGE-29></a></div></div><h4>Classes<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FMESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FMESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><h5>MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-24MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FMESSAGE-24MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h5><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/message.lisp#L7">class</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FMESSAGE-3AMESSAGE-20CLASS-29 id=x-2840ANTS-AI-AGENTS-2FMESSAGE-3AMESSAGE-20CLASS-29>40ants-ai-agents/message:message</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FMESSAGE-3AMESSAGE-20CLASS-29></a></div></div><h3>40ANTS-AI-AGENTS/STATE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/state.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2822-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FSTATE-22-29-20PACKAGE-29 id=x-28-23A-28-2822-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FSTATE-22-29-20PACKAGE-29>40ants-ai-agents/state</a></div></div><a class=bullet-link href=#x-28-23A-28-2822-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FSTATE-22-29-20PACKAGE-29></a></div></div><h4>Classes<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><h5>STATE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-24STATE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-24STATE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h5><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/state.lisp#L15">class</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20CLASS-29 id=x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20CLASS-29>40ants-ai-agents/state:state</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20CLASS-29></a></div></div><p><b>Readers</b></p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/state.lisp#L16">reader</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-MESSAGES-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FSTATE-3ASTATE-29-29 id=x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-MESSAGES-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FSTATE-3ASTATE-29-29>40ants-ai-agents/state:state-messages</a></div><div class=object-args><span class=locative-args></span><span class=locative-args>(:messages = nil)</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-MESSAGES-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FSTATE-3ASTATE-29-29></a></div></div><h4>Functions<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/state.lisp#L24">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20FUNCTION-29>40ants-ai-agents/state:state</a></div><div class=object-args><span class=locative-args>messages</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20FUNCTION-29></a></div></div><h3>40ANTS-AI-AGENTS/USER-MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/user-message.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2829-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FUSER-MESSAGE-22-29-20PACKAGE-29 id=x-28-23A-28-2829-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FUSER-MESSAGE-22-29-20PACKAGE-29>40ants-ai-agents/user-message</a></div></div><a class=bullet-link href=#x-28-23A-28-2829-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FUSER-MESSAGE-22-29-20PACKAGE-29></a></div></div><h4>Classes<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><h5>USER-MESSAGE<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-24USER-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-24USER-MESSAGE-3FCLASS-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h5><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/user-message.lisp#L10">class</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20CLASS-29 id=x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20CLASS-29>40ants-ai-agents/user-message:user-message</a></div><div class=object-args><span class=locative-args></span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20CLASS-29></a></div></div><p><b>Readers</b></p><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/user-message.lisp#L11">reader</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-29-29 id=x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-29-29>40ants-ai-agents/user-message:user-message-text</a></div><div class=object-args><span class=locative-args></span><span class=locative-args>(:text)</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-29-29></a></div></div><h4>Functions<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/user-message.lisp#L16">function</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20FUNCTION-29 id=x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20FUNCTION-29>40ants-ai-agents/user-message:user-message</a></div><div class=object-args><span class=locative-args>text</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20FUNCTION-29></a></div></div><h3>40ANTS-AI-AGENTS/VARS<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FVARS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FVARS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h3><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/vars.lisp#L1">package</a><div class=reference-object><div class=object-name><a href=#x-28-23A-28-2821-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FVARS-22-29-20PACKAGE-29 id=x-28-23A-28-2821-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FVARS-22-29-20PACKAGE-29>40ants-ai-agents/vars</a></div></div><a class=bullet-link href=#x-28-23A-28-2821-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FVARS-22-29-20PACKAGE-29></a></div></div><h4>Variables<a class=header-link
+     href=#x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FVARS-3FVariables-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29
+     title="Permalink to this headline"
+     id=x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FVARS-3FVariables-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29></a></h4><div class=reference-bullet><div class=reference-bullet-header><a class=locative-type href="https://github.com/40ants/ai-agents/blob/87ffc7c2267fbb36fadf5e70ba91b112cd39183a/src/vars.lisp#L9">variable</a><div class=reference-object><div class=object-name><a href=#x-2840ANTS-AI-AGENTS-2FVARS-3A-2AAPI-KEY-2A-20-28VARIABLE-29-29 id=x-2840ANTS-AI-AGENTS-2FVARS-3A-2AAPI-KEY-2A-20-28VARIABLE-29-29>40ants-ai-agents/vars:*api-key*</a></div><div class=object-args><span class=locative-args>-unbound-</span></div></div><a class=bullet-link href=#x-2840ANTS-AI-AGENTS-2FVARS-3A-2AAPI-KEY-2A-20-28VARIABLE-29-29></a></div><div class=bullet-content><p>Set this token to use <code>AI</code>.</p></div></div>
+   </div><div class=footer>
+    <hr class=separator>
+    <p class=fineprint>Created with passion by <em>40Ants</em><a class=lisp-logo
+     href="http://lisp-lang.org/">
+      <img
+           src="https://40ants.com/img/made-with-lisp.svg"></a>
+   </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Ключ для localStorage
+  const STORAGE_KEY = '40ants-ai-agents-docs-menu-state';
+  
+  // Загружаем сохраненное состояние меню
+  function loadMenuState() {
+    try {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      return savedState ? JSON.parse(savedState) : {};
+    } catch (e) {
+      console.error('Ошибка при загрузке состояния меню:', e);
+      return {};
+    }
+  }
+  
+  // Сохраняем текущее состояние меню
+  function saveMenuState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Ошибка при сохранении состояния меню:', e);
+    }
+  }
+  
+  // Получаем уникальный идентификатор для пункта меню
+  function getMenuItemId(item) {
+    const link = item.querySelector('a');
+    if (!link) return null;
+    
+    // Используем текст ссылки как идентификатор
+    // Можно также использовать href, но он может меняться в зависимости от текущей страницы
+    return link.innerText.trim();
+  }
+  
+  // Загружаем сохраненное состояние
+  const menuState = loadMenuState();
+  
+  // Находим все пункты меню с подпунктами
+  const menuItems = document.querySelectorAll('.sidebar li');
+  
+  // Обрабатываем каждый пункт меню
+  menuItems.forEach(item => {
+    const subMenu = item.querySelector('ul');
+    
+    // Если у пункта есть подменю
+    if (subMenu) {
+      const itemId = getMenuItemId(item);
+      item.classList.add('has-children');
+      
+      // Восстанавливаем состояние из localStorage, если оно сохранено
+      if (itemId && menuState[itemId]) {
+        item.classList.add('expanded');
+      }
+      
+      // Добавляем обработчик клика
+      const link = item.querySelector('a');
+      if (link) {
+        link.addEventListener('click', function(e) {
+          // Останавливаем переход по ссылке только если кликнули по пункту с подменю
+          if (item.classList.contains('has-children')) {
+            e.preventDefault();
+            
+            // Переключаем класс для раскрытия/скрытия
+            item.classList.toggle('expanded');
+            
+            // Сохраняем новое состояние
+            if (itemId) {
+              if (item.classList.contains('expanded')) {
+                menuState[itemId] = true;
+              } else {
+                delete menuState[itemId];
+              }
+              saveMenuState(menuState);
+            }
+          }
+        });
+      }
+    }
+  });
+  
+  // Функция для поиска и раскрытия родителей активного пункта
+  function expandActiveItemParents() {
+    const activeItem = document.querySelector('.sidebar li.active');
+    if (activeItem) {
+      let parent = activeItem.parentElement;
+      
+      while (parent) {
+        if (parent.tagName === 'UL' && parent.parentElement && parent.parentElement.tagName === 'LI') {
+          parent.parentElement.classList.add('expanded');
+          parent.parentElement.classList.add('active-parent');
+          
+          // Сохраняем состояние активного родителя
+          const parentItem = parent.parentElement;
+          const parentId = getMenuItemId(parentItem);
+          if (parentId) {
+            menuState[parentId] = true;
+          }
+        }
+        parent = parent.parentElement;
+      }
+      
+      // Сохраняем обновленное состояние после раскрытия активных родителей
+      saveMenuState(menuState);
+    }
+  }
+  
+  // Запускаем функцию для текущей страницы
+  expandActiveItemParents();
+});
+</script>
+
+
+  </div>
+ </body>
+</html>
