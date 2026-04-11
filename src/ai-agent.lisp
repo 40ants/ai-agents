@@ -35,16 +35,37 @@
           :reader %agent-tools)))
 
 
-(-> ai-agent (string &key (:tools (soft-list-of symbol)))
+(defun %default-endpoint (model)
+  "Return the default API endpoint URL for MODEL.
+   Known prefixes:
+     deepseek-* -> https://api.deepseek.com/chat/completions
+     gpt-*, o1-*, o3-*, o4-* -> https://api.openai.com/v1/chat/completions
+     claude-* -> https://api.anthropic.com/v1/messages
+   Everything else falls back to the OpenAI endpoint."
+  (cond
+    ((uiop:string-prefix-p "deepseek" model) "https://api.deepseek.com/chat/completions")
+    ((uiop:string-prefix-p "gpt-"     model) "https://api.openai.com/v1/chat/completions")
+    ((uiop:string-prefix-p "o1-"      model) "https://api.openai.com/v1/chat/completions")
+    ((uiop:string-prefix-p "o3-"      model) "https://api.openai.com/v1/chat/completions")
+    ((uiop:string-prefix-p "o4-"      model) "https://api.openai.com/v1/chat/completions")
+    ((uiop:string-prefix-p "claude-"  model) "https://api.anthropic.com/v1/messages")
+    (t "https://api.openai.com/v1/chat/completions")))
+
+
+(-> ai-agent (string &key (:tools (soft-list-of symbol)) (:model string) (:endpoint (or string null)))
     (values ai-agent &optional))
 
-(defun ai-agent (prompt &key tools)
+(defun ai-agent (prompt &key tools (model "deepseek-chat") endpoint)
+  "Create an AI agent with the given system PROMPT and optional TOOLS list.
+   MODEL selects the LLM model (default: \"deepseek-chat\").
+   ENDPOINT overrides the API URL; when nil the default for MODEL is used."
   (make-instance 'ai-agent
                  :completer (make-instance 'completions:openai-completer
-                                           :endpoint "https://api.deepseek.com/chat/completions"
+                                           :endpoint (or endpoint
+                                                         (%default-endpoint model))
                                            :api-key *api-key*
                                            :tools tools
-                                           :model "deepseek-chat")
+                                           :model model)
                  :prompt prompt
                  :tools tools))
 
