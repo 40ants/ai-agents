@@ -3,7 +3,6 @@
   (:import-from #:serapeum
                 #:->
                 #:soft-list-of)
-  (:import-from #:completions)
   (:import-from #:40ants-ai-agents/vars
                 #:*api-key*)
   (:import-from #:40ants-ai-agents/generics
@@ -11,14 +10,17 @@
   (:import-from #:40ants-ai-agents/state
                 #:state-messages
                 #:state)
-  (:import-from #:40ants-ai-agents/ai-message
-                #:ai-message-text
-                #:ai-message)
-  (:import-from #:40ants-ai-agents/user-message
-                #:user-message-text
-                #:user-message)
+  (:import-from #:40ants-ai-agents/llm-provider
+                #:get-completion
+                #:call-tool
+                #:prompt-token-count
+                #:completion-token-count)
+  (:import-from #:40ants-ai-agents/llm-provider/openai
+                #:openai-provider)
   (:export #:ai-agent
-           #:agent-completer))
+           #:agent-completer
+           #:to-api-messages
+           #:make-response-message))
 (in-package #:40ants-ai-agents/ai-agent)
 
 
@@ -36,12 +38,7 @@
 
 
 (defun %default-endpoint (model)
-  "Return the default API endpoint URL for MODEL.
-   Known prefixes:
-     deepseek-* -> https://api.deepseek.com/chat/completions
-     gpt-*, o1-*, o3-*, o4-* -> https://api.openai.com/v1/chat/completions
-     claude-* -> https://api.anthropic.com/v1/messages
-   Everything else falls back to the OpenAI endpoint."
+  "Return the default API endpoint URL for MODEL."
   (cond
     ((uiop:string-prefix-p "deepseek" model) "https://api.deepseek.com/chat/completions")
     ((uiop:string-prefix-p "gpt-"     model) "https://api.openai.com/v1/chat/completions")
@@ -56,11 +53,9 @@
     (values ai-agent &optional))
 
 (defun ai-agent (prompt &key tools (model "deepseek-chat") endpoint)
-  "Create an AI agent with the given system PROMPT and optional TOOLS list.
-   MODEL selects the LLM model (default: \"deepseek-chat\").
-   ENDPOINT overrides the API URL; when nil the default for MODEL is used."
+  "Create an AI agent with the given system PROMPT and optional TOOLS list."
   (make-instance 'ai-agent
-                 :completer (make-instance 'completions:openai-completer
+                 :completer (make-instance 'openai-provider
                                            :endpoint (or endpoint
                                                          (%default-endpoint model))
                                            :api-key *api-key*
@@ -70,26 +65,24 @@
                  :tools tools))
 
 
-(defgeneric to-api-message (message)
-  (:method ((message user-message))
-    (list (cons :role "user")
-          (cons :content (user-message-text message))))
-  (:method ((message ai-message))
-    (list (cons :role "assistant")
-          (cons :content (ai-message-text message)))))
+(defgeneric to-api-messages (message)
+  (:documentation "Convert a message to a list of API-format alists.
+Codabrus defines methods on its message class in src/message.lisp."))
+
+
+(defgeneric make-response-message (response tool-events)
+  (:documentation "Build a response message from the LLM RESPONSE text and TOOL-EVENTS list.
+Codabrus defines a method on its message class in src/message.lisp."))
 
 
 (defmethod process ((agent ai-agent) (state state))
   (let* ((messages (append
                     (list (list (cons :role "system")
                                 (cons :content (%agent-prompt agent))))
-                    (mapcar #'to-api-message
-                            (reverse
-                             (state-messages state)))))
-         (response (completions:get-completion (agent-completer agent)
-                                               messages
-                                               ;; TODO: make this agent property
-                                               :max-tokens 1000)))
-
+                    (mapcan #'to-api-messages
+                            (reverse (state-messages state)))))
+         (response (get-completion (agent-completer agent)
+                                   messages
+                                   :max-tokens 1000)))
     (40ants-ai-agents/generics:add-message state
-                                           (ai-message response))))
+                                           (make-response-message response nil))))
