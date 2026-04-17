@@ -33,6 +33,7 @@
            #:*cost-fn*
            #:with-budget
            #:with-budget-guard
+           #:make-message
            #:make-text-block
            #:make-base64-block
            #:make-content-blocks
@@ -107,6 +108,11 @@ Emit :tool-call and :tool-result events. :around methods allow interception."))
 
 (defmethod make-content-blocks ((provider llm-provider) &rest blocks)
   (coerce blocks 'vector))
+
+
+(defun make-message (role content)
+  "Create a chat message hash-table with ROLE and CONTENT."
+  (dict "role" role "content" content))
 
 
 (defun render-tools-payload (provider tool-symbols)

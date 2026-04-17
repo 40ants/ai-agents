@@ -11,6 +11,7 @@
                 #:render-tool-for-api
                 #:render-tools-payload
                 #:exec-tool-calls
+                #:make-message
                 #:with-budget
                 #:with-budget-guard
                 #:json-encode
@@ -46,9 +47,6 @@
 
 
 ;;; Helpers
-
-(defun make-message (role content)
-  (dict "role" role "content" content))
 
 (defun make-tool-answer-message (call-id content)
   (dict "role" "tool" "tool_call_id" call-id "content" content))

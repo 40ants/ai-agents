@@ -13,7 +13,7 @@ Round-trip safe: hash-tables become JSON objects, vectors become JSON arrays,
 
 Use JSON-PARSE with the same settings to get back the original structure."
   (yason:with-output-to-string* ()
-    (yason:encode object nil)))
+    (yason:encode object)))
 
 
 (defun json-parse (string)
