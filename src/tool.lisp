@@ -15,7 +15,9 @@
            #:map-args-to-parameters
            #:list-available-tools
            #:get-tool-info
-           #:render-tool))
+           #:render-tool
+           #:%param-name->string
+           #:%param-type->string))
 (in-package #:40ants-ai-agents/tool)
 
 
@@ -34,7 +36,18 @@
   "Extract positional arg values from ARGS (hash-table with string keys)
 in the order declared by the tool's parameter list."
   (loop for (param-name _param-type _param-desc) in (tool-parameters fn-tool)
-        collect (gethash param-name args)))
+        collect (gethash (%param-name->string param-name) args)))
+
+
+(defun %param-name->string (name)
+  (etypecase name
+    (string name)
+    (symbol (string-downcase (symbol-name name)))))
+
+(defun %param-type->string (type)
+  (etypecase type
+    (string type)
+    (symbol (string-downcase (symbol-name type)))))
 
 
 (defun render-tool (tool)
@@ -43,8 +56,8 @@ in the order declared by the tool's parameter list."
     (let ((props (when parameters
                    (apply #'dict
                           (loop for p in parameters
-                                append (list (first p)
-                                             (dict "type" (second p)
+                                append (list (%param-name->string (first p))
+                                             (dict "type" (%param-type->string (second p))
                                                    "description" (third p))))))))
       (dict
        "type" "function"
@@ -55,7 +68,9 @@ in the order declared by the tool's parameter list."
                                    (list "parameters"
                                          (dict "type" "object"
                                                "properties" props
-                                               "required" (mapcar #'first parameters))))))))))
+                                               "required" (mapcar (lambda (p)
+                                                                    (%param-name->string (first p)))
+                                                                  parameters))))))))))
 
 
 (defun invoke-tool (fn-name args)

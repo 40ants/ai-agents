@@ -22,7 +22,9 @@
                 #:render-tool
                 #:tool-name
                 #:tool-description
-                #:tool-parameters)
+                #:tool-parameters
+                #:%param-name->string
+                #:%param-type->string)
   (:import-from #:alexandria #:when-let)
   (:import-from #:serapeum #:dict #:take #:drop #:append1)
   (:export #:anthropic-provider))
@@ -51,10 +53,10 @@
                     "properties"
                     (apply #'dict
                            (loop for p in params
-                                 append (list (first p)
-                                              (dict "type" (second p)
+                                 append (list (%param-name->string (first p))
+                                              (dict "type" (%param-type->string (second p))
                                                     "description" (third p)))))
-                    "required" (mapcar #'first params))))
+                    "required" (mapcar (lambda (p) (%param-name->string (first p))) params))))
       result)))
 
 

@@ -21,7 +21,9 @@
                 #:render-tool
                 #:tool-name
                 #:tool-description
-                #:tool-parameters)
+                #:tool-parameters
+                #:%param-name->string
+                #:%param-type->string)
   (:import-from #:alexandria #:when-let)
   (:import-from #:serapeum #:dict #:take #:append1)
   (:export #:gemini-provider))
@@ -50,8 +52,8 @@
         (let ((props (dict))
               (required nil))
           (loop for p in params
-                for pname = (first p)
-                for ptype = (second p)
+                for pname = (%param-name->string (first p))
+                for ptype = (%param-type->string (second p))
                 for pdesc = (third p)
                 do (setf (gethash pname props)
                          (dict "type" (string-upcase ptype)
