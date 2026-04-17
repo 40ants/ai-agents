@@ -27,6 +27,8 @@
 
 
 (defvar *debug-stream* nil)
+
+
 (defvar *read-timeout* 120)
 
 
@@ -220,7 +222,8 @@
                              (response-format nil))
   (declare (ignore max-tokens response-format))
   (when (stringp messages)
-    (setf messages (list (make-message "user" messages))))
+    (setf messages
+          (list (make-message "user" messages))))
   (with-budget ()
     (with-slots (endpoint api-key) provider
       (let ((headers `(("Content-Type" . "application/json")
