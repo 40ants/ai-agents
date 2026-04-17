@@ -18,7 +18,12 @@
           * `call-tool` emits `:tool-call` and `:tool-result` events on the provider, replacing the old `*tool-interceptor*` pattern. Clients add `:around` methods or `event-emitter:on` listeners.
           * Budget system (`*max-turns*`, `*max-cost-usd*`, `budget-exceeded`) moved from completions to `40ants-ai-agents/llm-provider`.
           * Codabrus tools now import `defun-tool` from `40ants-ai-agents/tool` instead of `completions`.
-          * Codabrus session/main use `event-emitter` listeners instead of `*tool-interceptor*` for audit logging.")
+           * Codabrus session/main use `event-emitter` listeners instead of `*tool-interceptor*` for audit logging.")
+  (0.6.0 2026-04-17
+         "* Added `anthropic-provider` (40ants-ai-agents/llm-provider/anthropic) — Anthropic/Claude API with SSE streaming, tool-use content blocks, system-prompt extraction.
+          * Added `ollama-provider` (40ants-ai-agents/llm-provider/ollama) — Ollama local API (`/api/chat`) with streaming, tool calling, no auth required.
+          * Added `gemini-provider` (40ants-ai-agents/llm-provider/gemini) — Google Gemini API with `generateContent`/`streamGenerateContent`, `functionDeclarations`, `functionCall`/`functionResponse` parts.
+          * `ai-agent` now auto-routes to the correct provider class based on model name prefix: `deepseek-*`/`gpt-*`/`o1-*`/`o3-*`/`o4-*` → OpenAI, `claude-*` → Anthropic, `gemini-*` → Gemini, others → OpenAI.")
   (0.4.0 2026-04-11)
   (0.3.0 2026-04-11
          "* Added :MODEL keyword argument to 40ANTS-AI-AGENTS/AI-AGENT:AI-AGENT function to allow per-call model override.

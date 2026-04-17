@@ -257,9 +257,9 @@ In `qlfile`: add `event-emitter` if not in Quicklisp.
 5. ✅ Update `codabrus/src/tools/*.lisp` — new import
 6. ✅ Update `codabrus/src/session.lisp` — new import
 7. ✅ Update `codabrus/src/main.lisp` — events instead of interceptor
-8. `src/llm-provider/anthropic.lisp`
-9. `src/llm-provider/ollama.lisp`
-10. `src/llm-provider/gemini.lisp`
+8. ✅ `src/llm-provider/anthropic.lisp`
+9. ✅ `src/llm-provider/ollama.lisp`
+10. ✅ `src/llm-provider/gemini.lisp`
 11. Tests
 12. Delete `libs/completions/`
 

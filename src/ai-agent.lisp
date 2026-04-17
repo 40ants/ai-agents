@@ -17,7 +17,13 @@
                 #:prompt-token-count
                 #:completion-token-count)
   (:import-from #:40ants-ai-agents/llm-provider/openai
-                #:openai-provider)
+                 #:openai-provider)
+  (:import-from #:40ants-ai-agents/llm-provider/anthropic
+                 #:anthropic-provider)
+  (:import-from #:40ants-ai-agents/llm-provider/ollama
+                 #:ollama-provider)
+  (:import-from #:40ants-ai-agents/llm-provider/gemini
+                 #:gemini-provider)
   (:export #:ai-agent
            #:agent-completer
            #:to-api-messages
@@ -38,16 +44,52 @@
           :reader %agent-tools)))
 
 
+(defun %provider-type (model)
+  "Return a keyword identifying the provider family for MODEL."
+  (cond
+    ((uiop:string-prefix-p "deepseek" model) :openai)
+    ((uiop:string-prefix-p "gpt-"     model) :openai)
+    ((uiop:string-prefix-p "o1-"      model) :openai)
+    ((uiop:string-prefix-p "o3-"      model) :openai)
+    ((uiop:string-prefix-p "o4-"      model) :openai)
+    ((uiop:string-prefix-p "claude-"  model) :anthropic)
+    ((uiop:string-prefix-p "gemini-"  model) :gemini)
+    (t :openai)))
+
+
 (defun %default-endpoint (model)
   "Return the default API endpoint URL for MODEL."
-  (cond
-    ((uiop:string-prefix-p "deepseek" model) "https://api.deepseek.com/chat/completions")
-    ((uiop:string-prefix-p "gpt-"     model) "https://api.openai.com/v1/chat/completions")
-    ((uiop:string-prefix-p "o1-"      model) "https://api.openai.com/v1/chat/completions")
-    ((uiop:string-prefix-p "o3-"      model) "https://api.openai.com/v1/chat/completions")
-    ((uiop:string-prefix-p "o4-"      model) "https://api.openai.com/v1/chat/completions")
-    ((uiop:string-prefix-p "claude-"  model) "https://api.anthropic.com/v1/messages")
-    (t "https://api.openai.com/v1/chat/completions")))
+  (ecase (%provider-type model)
+    (:openai    "https://api.openai.com/v1/chat/completions")
+    (:anthropic "https://api.anthropic.com/v1/messages")
+    (:gemini    nil)
+    (:ollama    "http://localhost:11434/api/chat")))
+
+
+(defun %make-provider (model api-key tools endpoint)
+  "Construct the appropriate provider class for MODEL."
+  (ecase (%provider-type model)
+    (:openai    (make-instance 'openai-provider
+                               :endpoint (or endpoint
+                                             (if (uiop:string-prefix-p "deepseek" model)
+                                                 "https://api.deepseek.com/chat/completions"
+                                                 "https://api.openai.com/v1/chat/completions"))
+                               :api-key api-key
+                               :tools tools
+                               :model model))
+    (:anthropic (make-instance 'anthropic-provider
+                               :endpoint (or endpoint "https://api.anthropic.com/v1/messages")
+                               :api-key api-key
+                               :tools tools
+                               :model model))
+    (:gemini    (make-instance 'gemini-provider
+                               :api-key api-key
+                               :tools tools
+                               :model model))
+    (:ollama    (make-instance 'ollama-provider
+                               :endpoint (or endpoint "http://localhost:11434/api/chat")
+                               :tools tools
+                               :model model))))
 
 
 (-> ai-agent (string &key (:tools (soft-list-of symbol)) (:model string) (:endpoint (or string null)))
@@ -56,12 +98,7 @@
 (defun ai-agent (prompt &key tools (model "deepseek-chat") endpoint)
   "Create an AI agent with the given system PROMPT and optional TOOLS list."
   (make-instance 'ai-agent
-                 :completer (make-instance 'openai-provider
-                                           :endpoint (or endpoint
-                                                         (%default-endpoint model))
-                                           :api-key *api-key*
-                                           :tools tools
-                                           :model model)
+                 :completer (%make-provider model *api-key* tools endpoint)
                  :prompt prompt
                  :tools tools))
 
