@@ -3,7 +3,10 @@
   (:import-from #:40ants-ai-agents/message
                 #:message)
   (:export #:user-message
-           #:user-message-text))
+           #:user-message-text
+           #:text-response
+           #:text-response-text
+           #:make-text-response-message))
 (in-package #:40ants-ai-agents/user-message)
 
 
@@ -22,3 +25,16 @@
   (print-unreadable-object (obj stream :type t)
     (format stream "~A"
             (user-message-text obj))))
+
+
+(defclass text-response (message)
+  ((text :initarg :text
+         :type string
+         :reader text-response-text)))
+
+(defmethod print-object ((obj text-response) stream)
+  (print-unreadable-object (obj stream :type t)
+    (format stream "~A" (text-response-text obj))))
+
+(defun make-text-response-message (text)
+  (make-instance 'text-response :text text))

@@ -24,6 +24,12 @@
                  #:ollama-provider)
   (:import-from #:40ants-ai-agents/llm-provider/gemini
                  #:gemini-provider)
+  (:import-from #:40ants-ai-agents/user-message
+                #:make-text-response-message
+                #:user-message
+                #:user-message-text
+                #:text-response
+                #:text-response-text)
   (:export #:ai-agent
            #:agent-completer
            #:to-api-messages
@@ -108,9 +114,24 @@
 Codabrus defines methods on its message class in src/message.lisp."))
 
 
+(defmethod to-api-messages ((msg user-message))
+  (list (dict "role" "user"
+              "content" (user-message-text msg))))
+
+
+(defmethod to-api-messages ((msg text-response))
+  (list (dict "role" "assistant"
+              "content" (text-response-text msg))))
+
+
 (defgeneric make-response-message (response tool-events)
   (:documentation "Build a response message from the LLM RESPONSE text and TOOL-EVENTS list.
 Codabrus defines a method on its message class in src/message.lisp."))
+
+
+(defmethod make-response-message (response tool-events)
+  (declare (ignore tool-events))
+  (make-text-response-message response))
 
 
 (defmethod process ((agent ai-agent) (state state))
