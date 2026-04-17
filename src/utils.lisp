@@ -1,5 +1,6 @@
 (uiop:define-package #:40ants-ai-agents/utils
   (:use #:cl)
+  (:import-from #:yason)
   (:export #:json-encode
            #:json-parse))
 (in-package #:40ants-ai-agents/utils)

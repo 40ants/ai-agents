@@ -12,3 +12,6 @@
   :depends-on ("40ants-ai-agents/core"
                "40ants-ai-agents/ai-agent")
   :in-order-to ((test-op (test-op "40ants-ai-agents-tests"))))
+
+
+(asdf:register-system-packages "dexador" '("DEX"))

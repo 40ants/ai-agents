@@ -1,5 +1,9 @@
 (uiop:define-package #:40ants-ai-agents/llm-provider
   (:use #:cl)
+  (:import-from #:cl-base64)
+  (:import-from #:str)
+  (:import-from #:babel)
+  (:import-from #:dex)
   (:import-from #:event-emitter)
   (:import-from #:alexandria
                 #:when-let)
