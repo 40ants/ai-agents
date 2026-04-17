@@ -1,6 +1,7 @@
 (uiop:define-package #:40ants-ai-agents/tool
   (:use #:cl)
   (:import-from #:serapeum
+                #:dict
                 #:soft-list-of
                 #:->)
   (:export #:function-tool
@@ -30,39 +31,35 @@
 
 
 (defun map-args-to-parameters (fn-tool args)
-  "Map ARGS (an alist) to positional arguments in declared order."
+  "Extract positional arg values from ARGS (hash-table with string keys)
+in the order declared by the tool's parameter list."
   (loop for (param-name _param-type _param-desc) in (tool-parameters fn-tool)
-        collect
-        (let* ((key (intern (string-upcase param-name) :keyword))
-               (found (or (assoc key args)
-                          (assoc key args
-                                 :test (lambda (a b)
-                                         (and (stringp a)
-                                              (stringp b)
-                                              (string-equal a b)))))))
-          (cdr found))))
+        collect (gethash param-name args)))
 
 
 (defun render-tool (tool)
-  "Render TOOL as an OpenAI-style tool definition alist."
+  "Render TOOL as an OpenAI-style tool definition hash-table."
   (with-slots (description name parameters) tool
-    `((:type . "function")
-      (:function . ((:name . ,name)
-                     (:description . ,description)
-                     ,@(when parameters
-                         `(:parameters .
-                           ((:type . "object")
-                            (:properties .
-                             ,(loop for p in parameters
-                                    collect (list (first p)
-                                                  (cons :type (second p))
-                                                  (cons :description (third p)))))
-                            (:required .
-                             ,(loop for p in parameters collect (first p)))))))))))
+    (let ((props (when parameters
+                   (apply #'dict
+                          (loop for p in parameters
+                                append (list (first p)
+                                             (dict "type" (second p)
+                                                   "description" (third p))))))))
+      (dict
+       "type" "function"
+       "function" (apply #'dict
+                         (append (list "name" name
+                                       "description" description)
+                                 (when parameters
+                                   (list "parameters"
+                                         (dict "type" "object"
+                                               "properties" props
+                                               "required" (mapcar #'first parameters))))))))))
 
 
 (defun invoke-tool (fn-name args)
-  "Look up tool FN-NAME, call it with ARGS, return result string."
+  "Look up tool FN-NAME, call it with ARGS (hash-table), return result string."
   (handler-case
       (let ((fn-tool (gethash fn-name *tools*)))
         (unless fn-tool

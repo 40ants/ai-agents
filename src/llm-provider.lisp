@@ -2,16 +2,17 @@
   (:use #:cl)
   (:import-from #:event-emitter)
   (:import-from #:alexandria
-                #:when-let
-                #:if-let)
+                #:when-let)
   (:import-from #:serapeum
-                #:take
-                #:drop
+                #:dict
                 #:append1)
   (:import-from #:40ants-ai-agents/tool
                 #:invoke-tool
                 #:*tools*
                 #:render-tool)
+  (:import-from #:40ants-ai-agents/utils
+                #:json-encode
+                #:json-parse)
   (:export #:llm-provider
            #:provider-model
            #:provider-tools
@@ -20,6 +21,8 @@
            #:get-completion
            #:call-tool
            #:render-tool-for-api
+           #:render-tools-payload
+           #:exec-tool-calls
            #:total-tokens-used
            #:reset-token-counts
            #:budget-exceeded
@@ -30,15 +33,14 @@
            #:*cost-fn*
            #:with-budget
            #:with-budget-guard
-           #:file-to-base64
            #:make-text-block
            #:make-base64-block
            #:make-content-blocks
+           #:file-to-base64
            #:media-type-from-path
            #:make-file-block
-           #:%encode-json
-           #:%parse-json
-           #:%make-json-output-stream
+           #:json-encode
+           #:json-parse
            #:safe-http-request
            #:convert-byte-array-to-utf8))
 (in-package #:40ants-ai-agents/llm-provider)
@@ -67,24 +69,19 @@ Emit :tool-call and :tool-result events. :around methods allow interception."))
   (:documentation "Render a function-tool into the provider-specific API format."))
 
 
-(defgeneric total-tokens-used (provider)
-  (:documentation "Return prompt + completion token count."))
+(defgeneric total-tokens-used (provider))
 
 
-(defgeneric reset-token-counts (provider)
-  (:documentation "Reset token counters to zero."))
+(defgeneric reset-token-counts (provider))
 
 
-(defgeneric make-text-block (provider text)
-  (:documentation "Create a text content block for this provider's API."))
+(defgeneric make-text-block (provider text))
 
 
-(defgeneric make-base64-block (provider block-type base64-data media-type)
-  (:documentation "Create a base64 content block for this provider's API."))
+(defgeneric make-base64-block (provider block-type base64-data media-type))
 
 
-(defgeneric make-content-blocks (provider &rest blocks)
-  (:documentation "Combine content blocks into the structure expected by this provider's API."))
+(defgeneric make-content-blocks (provider &rest blocks))
 
 
 (defmethod call-tool ((provider llm-provider) tool-name args)
@@ -105,11 +102,37 @@ Emit :tool-call and :tool-result events. :around methods allow interception."))
 
 
 (defmethod make-text-block ((provider llm-provider) text)
-  (list (cons :type "text") (cons :text text)))
+  (dict "type" "text" "text" text))
 
 
 (defmethod make-content-blocks ((provider llm-provider) &rest blocks)
-  (make-array (length blocks) :initial-contents blocks))
+  (coerce blocks 'vector))
+
+
+(defun render-tools-payload (provider tool-symbols)
+  "Render each tool symbol into the provider-specific format."
+  (loop for sym in tool-symbols
+        for tool = (gethash (symbol-name sym) *tools*)
+        unless tool
+          do (error "Undefined tool function: ~A" sym)
+        collect (render-tool-for-api provider tool)))
+
+
+(defun exec-tool-calls (provider tool-calls)
+  "Execute tool calls (a list of hash-tables) and return list of tool-answer hash-tables.
+Each call must have \"id\" and \"function\" (with \"name\" and \"arguments\") keys."
+  (loop for tc in tool-calls
+        for call-id = (gethash "id" tc)
+        for func = (gethash "function" tc)
+        for fn-name = (gethash "name" func)
+        for raw-args = (gethash "arguments" func)
+        for args = (json-parse raw-args)
+        collect (multiple-value-bind (result _cid)
+                    (call-tool provider fn-name args)
+                  (declare (ignore _cid))
+                  (dict "role" "tool"
+                        "tool_call_id" call-id
+                        "content" result))))
 
 
 
@@ -199,29 +222,10 @@ Emit :tool-call and :tool-result events. :around methods allow interception."))
   (let* ((media-type (media-type-from-path path))
          (base64-data (file-to-base64 path))
          (block-type (or block-type
-                         (if (str:starts-with-p "image/" media-type)
-                             "image"
-                             "document"))))
+                          (if (str:starts-with-p "image/" media-type)
+                              "image"
+                              "document"))))
     (make-base64-block provider block-type base64-data media-type)))
-
-
-
-;;; JSON utilities (YASON)
-
-(defun %make-json-output-stream ()
-  (make-string-output-stream))
-
-(defun %encode-json (object)
-  "Serialize OBJECT to a JSON string using YASON."
-  (let ((yason:*list-encoder* 'yason:encode-alist)
-        (yason:*symbol-key-encoder* #'yason:encode-symbol-as-lowercase))
-    (with-output-to-string (s)
-      (yason:encode object s))))
-
-(defun %parse-json (string)
-  "Parse STRING as JSON using YASON, returning a plist."
-  (let ((yason:*parse-object-key-fn* (lambda (key) (intern (string-upcase key) :keyword))))
-    (yason:parse string)))
 
 
 

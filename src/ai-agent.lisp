@@ -2,7 +2,8 @@
   (:use #:cl)
   (:import-from #:serapeum
                 #:->
-                #:soft-list-of)
+                #:soft-list-of
+                #:dict)
   (:import-from #:40ants-ai-agents/vars
                 #:*api-key*)
   (:import-from #:40ants-ai-agents/generics
@@ -66,7 +67,7 @@
 
 
 (defgeneric to-api-messages (message)
-  (:documentation "Convert a message to a list of API-format alists.
+  (:documentation "Convert a message to a list of API-format hash-tables.
 Codabrus defines methods on its message class in src/message.lisp."))
 
 
@@ -77,8 +78,8 @@ Codabrus defines a method on its message class in src/message.lisp."))
 
 (defmethod process ((agent ai-agent) (state state))
   (let* ((messages (append
-                    (list (list (cons :role "system")
-                                (cons :content (%agent-prompt agent))))
+                    (list (dict "role" "system"
+                                "content" (%agent-prompt agent)))
                     (mapcan #'to-api-messages
                             (reverse (state-messages state)))))
          (response (get-completion (agent-completer agent)
