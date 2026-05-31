@@ -56,7 +56,7 @@
 
 (defun make-assistant-tool-call-message (tool-calls)
   (dict "role" "assistant"
-        "content" :null
+        "content" "NULL"
         "tool_calls" (coerce tool-calls 'vector)))
 
 
@@ -117,26 +117,31 @@
           for tcs = (when delta (gethash "tool_calls" delta))
           when tcs
             do (loop for tc across tcs
+                     for idx = (gethash "index" tc)
                      for id = (gethash "id" tc)
                      for func = (gethash "function" tc)
-                     when id
-                       do (unless (gethash id map)
-                            (setf (gethash id map) (dict "id" id "name" nil "arguments" "")))
+                     when idx
+                       do (unless (gethash idx map)
+                            (setf (gethash idx map) (dict "id" nil "name" nil "arguments" "")))
+                          (when id
+                            (setf (gethash "id" (gethash idx map)) id))
                           (when func
                             (let ((name (gethash "name" func))
                                   (args (gethash "arguments" func)))
                               (when name
-                                (setf (gethash "name" (gethash id map)) name))
+                                (setf (gethash "name" (gethash idx map)) name))
                               (when args
-                                (setf (gethash "arguments" (gethash id map))
+                                (setf (gethash "arguments" (gethash idx map))
                                       (concatenate 'string
-                                                   (gethash "arguments" (gethash id map))
+                                                   (gethash "arguments" (gethash idx map))
                                                    args)))))))
-    (loop for id being the hash-keys of map
-          for data = (gethash id map)
-          when (and (gethash "name" data)
+    (loop for idx being the hash-keys of map
+          for data = (gethash idx map)
+          when (and (gethash "id" data)
+                    (gethash "name" data)
                     (not (string= (gethash "arguments" data) "")))
-            collect (dict "id" id
+            collect (dict "id" (gethash "id" data)
+                          "type" "function"
                           "function" (dict "name" (gethash "name" data)
                                            "arguments" (gethash "arguments" data))))))
 
@@ -234,32 +239,55 @@
             (openai-non-streaming-loop provider endpoint headers messages))))))
 
 
-(defmethod get-single-completion ((provider openai-provider) messages &key)
+(defmethod get-single-completion ((provider openai-provider) messages
+                                  &key streaming-callback)
   (with-slots (endpoint api-key) provider
     (let* ((headers `(("Content-Type" . "application/json")
-                      ("Authorization" . ,(concatenate 'string "Bearer " api-key))))
-           (payload (build-payload provider messages nil))
-           (content (json-encode payload))
-           (result (with-budget-guard (provider)
-                     ;; (break)
-                     (let* ((ba (safe-http-request endpoint
-                                                   :read-timeout *read-timeout*
-                                                   :content content
-                                                   :headers headers
-                                                   :force-binary t
-                                                   :want-stream nil))
-                            (parsed (json-parse (convert-byte-array-to-utf8 ba))))
-                       parsed))))
-      (multiple-value-bind (tool-calls response-text)
-          (extract-non-streaming-data result provider)
-        (cond
-          (tool-calls
-           (let ((tool-calls-list (coerce tool-calls 'list)))
-             (values :tool-calls
-                     tool-calls-list
-                     (append messages
-                             (list (make-assistant-tool-call-message tool-calls-list))))))
-          (t
-           (values :text
-                   response-text
-                   (append1 messages (make-message "assistant" response-text)))))))))
+                      ("Authorization" . ,(concatenate 'string "Bearer " api-key)))))
+      (if streaming-callback
+          (let* ((payload (build-payload provider messages t))
+                 (content (json-encode payload))
+                 (objs (with-budget-guard (provider)
+                         (let ((stream (safe-http-request endpoint
+                                                          :read-timeout *read-timeout*
+                                                          :content content
+                                                          :headers headers
+                                                          :want-stream t)))
+                           (unwind-protect
+                                (read-streamed-json-objects stream streaming-callback)
+                             (close stream))))))
+            (if (detect-tool-calls-in-stream objs)
+                (let* ((tool-calls (accumulate-tool-calls objs))
+                       (tool-calls-list tool-calls))
+                  (values :tool-calls
+                          tool-calls-list
+                          (append messages
+                                  (list (make-assistant-tool-call-message tool-calls-list)))))
+                (let ((response-text (extract-stream-text objs)))
+                  (values :text
+                          response-text
+                          (append1 messages (make-message "assistant" response-text))))))
+          (let* ((payload (build-payload provider messages nil))
+                 (content (json-encode payload))
+                 (result (with-budget-guard (provider)
+                           (let* ((ba (safe-http-request endpoint
+                                                         :read-timeout *read-timeout*
+                                                         :content content
+                                                         :headers headers
+                                                         :force-binary t
+                                                         :want-stream nil))
+                                  (parsed (json-parse (convert-byte-array-to-utf8 ba))))
+                             parsed))))
+            (multiple-value-bind (tool-calls response-text)
+                (extract-non-streaming-data result provider)
+              (cond
+                (tool-calls
+                 (let ((tool-calls-list (coerce tool-calls 'list)))
+                   (values :tool-calls
+                           tool-calls-list
+                           (append messages
+                                   (list (make-assistant-tool-call-message tool-calls-list))))))
+                (t
+                 (values :text
+                         response-text
+                          (append1 messages (make-message "assistant" response-text)))))))))))
