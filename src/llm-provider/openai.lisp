@@ -7,6 +7,7 @@
                 #:prompt-token-count
                 #:completion-token-count
                 #:get-completion
+                #:get-single-completion
                 #:call-tool
                 #:render-tool-for-api
                 #:render-tools-payload
@@ -231,3 +232,34 @@
         (if streaming-callback
             (openai-streaming-loop provider endpoint headers messages streaming-callback)
             (openai-non-streaming-loop provider endpoint headers messages))))))
+
+
+(defmethod get-single-completion ((provider openai-provider) messages &key)
+  (with-slots (endpoint api-key) provider
+    (let* ((headers `(("Content-Type" . "application/json")
+                      ("Authorization" . ,(concatenate 'string "Bearer " api-key))))
+           (payload (build-payload provider messages nil))
+           (content (json-encode payload))
+           (result (with-budget-guard (provider)
+                     ;; (break)
+                     (let* ((ba (safe-http-request endpoint
+                                                   :read-timeout *read-timeout*
+                                                   :content content
+                                                   :headers headers
+                                                   :force-binary t
+                                                   :want-stream nil))
+                            (parsed (json-parse (convert-byte-array-to-utf8 ba))))
+                       parsed))))
+      (multiple-value-bind (tool-calls response-text)
+          (extract-non-streaming-data result provider)
+        (cond
+          (tool-calls
+           (let ((tool-calls-list (coerce tool-calls 'list)))
+             (values :tool-calls
+                     tool-calls-list
+                     (append messages
+                             (list (make-assistant-tool-call-message tool-calls-list))))))
+          (t
+           (values :text
+                   response-text
+                   (append1 messages (make-message "assistant" response-text)))))))))

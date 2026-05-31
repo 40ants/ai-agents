@@ -23,6 +23,7 @@
            #:prompt-token-count
            #:completion-token-count
            #:get-completion
+           #:get-single-completion
            #:call-tool
            #:render-tool-for-api
            #:render-tools-payload
@@ -63,6 +64,12 @@
 
 (defgeneric get-completion (provider messages &key max-tokens streaming-callback response-format)
   (:documentation "Send MESSAGES to the LLM and return (values text updated-messages)."))
+
+
+(defgeneric get-single-completion (provider messages &key &allow-other-keys)
+  (:documentation "Single LLM API call without tool loop.
+Returns (values :text response-text updated-messages)
+     or (values :tool-calls tool-calls-list updated-messages)."))
 
 
 (defgeneric call-tool (provider tool-name args)
