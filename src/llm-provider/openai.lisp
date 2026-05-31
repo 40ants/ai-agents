@@ -239,55 +239,64 @@
             (openai-non-streaming-loop provider endpoint headers messages))))))
 
 
+(defun make-headers (api-key)
+  `(("Content-Type" . "application/json")
+    ("Authorization" . ,(concatenate 'string "Bearer " api-key))))
+
+
+(defun handle-tool-call-response (messages tool-calls)
+  (values :tool-calls
+          tool-calls
+          (append messages
+                  (list (make-assistant-tool-call-message tool-calls)))))
+
+
+(defun handle-text-response (messages response-text)
+  (values :text
+          response-text
+          (append1 messages (make-message "assistant" response-text))))
+
+
+(defun get-single-completion-streaming (provider endpoint headers messages streaming-callback)
+  (let* ((payload (build-payload provider messages t))
+         (content (json-encode payload))
+         (objs (with-budget-guard (provider)
+                 (let ((stream (safe-http-request endpoint
+                                                  :read-timeout *read-timeout*
+                                                  :content content
+                                                  :headers headers
+                                                  :want-stream t)))
+                   (unwind-protect
+                        (read-streamed-json-objects stream streaming-callback)
+                     (close stream))))))
+    (if (detect-tool-calls-in-stream objs)
+        (handle-tool-call-response messages (accumulate-tool-calls objs))
+        (handle-text-response messages (extract-stream-text objs)))))
+
+
+(defun get-single-completion-non-streaming (provider endpoint headers messages)
+  (let* ((payload (build-payload provider messages nil))
+         (content (json-encode payload))
+         (result (with-budget-guard (provider)
+                   (let* ((ba (safe-http-request endpoint
+                                                 :read-timeout *read-timeout*
+                                                 :content content
+                                                 :headers headers
+                                                 :force-binary t
+                                                 :want-stream nil))
+                          (parsed (json-parse (convert-byte-array-to-utf8 ba))))
+                     parsed))))
+    (multiple-value-bind (tool-calls response-text)
+        (extract-non-streaming-data result provider)
+      (if tool-calls
+          (handle-tool-call-response messages (coerce tool-calls 'list))
+          (handle-text-response messages response-text)))))
+
+
 (defmethod get-single-completion ((provider openai-provider) messages
                                   &key streaming-callback)
   (with-slots (endpoint api-key) provider
-    (let* ((headers `(("Content-Type" . "application/json")
-                      ("Authorization" . ,(concatenate 'string "Bearer " api-key)))))
+    (let ((headers (make-headers api-key)))
       (if streaming-callback
-          (let* ((payload (build-payload provider messages t))
-                 (content (json-encode payload))
-                 (objs (with-budget-guard (provider)
-                         (let ((stream (safe-http-request endpoint
-                                                          :read-timeout *read-timeout*
-                                                          :content content
-                                                          :headers headers
-                                                          :want-stream t)))
-                           (unwind-protect
-                                (read-streamed-json-objects stream streaming-callback)
-                             (close stream))))))
-            (if (detect-tool-calls-in-stream objs)
-                (let* ((tool-calls (accumulate-tool-calls objs))
-                       (tool-calls-list tool-calls))
-                  (values :tool-calls
-                          tool-calls-list
-                          (append messages
-                                  (list (make-assistant-tool-call-message tool-calls-list)))))
-                (let ((response-text (extract-stream-text objs)))
-                  (values :text
-                          response-text
-                          (append1 messages (make-message "assistant" response-text))))))
-          (let* ((payload (build-payload provider messages nil))
-                 (content (json-encode payload))
-                 (result (with-budget-guard (provider)
-                           (let* ((ba (safe-http-request endpoint
-                                                         :read-timeout *read-timeout*
-                                                         :content content
-                                                         :headers headers
-                                                         :force-binary t
-                                                         :want-stream nil))
-                                  (parsed (json-parse (convert-byte-array-to-utf8 ba))))
-                             parsed))))
-            (multiple-value-bind (tool-calls response-text)
-                (extract-non-streaming-data result provider)
-              (cond
-                (tool-calls
-                 (let ((tool-calls-list (coerce tool-calls 'list)))
-                   (values :tool-calls
-                           tool-calls-list
-                           (append messages
-                                   (list (make-assistant-tool-call-message tool-calls-list))))))
-                (t
-                 (values :text
-                         response-text
-                          (append1 messages (make-message "assistant" response-text)))))))))))
+          (get-single-completion-streaming provider endpoint headers messages streaming-callback)
+          (get-single-completion-non-streaming provider endpoint headers messages)))))
