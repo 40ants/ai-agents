@@ -45,7 +45,7 @@ You can install this library from Quicklisp, but you want to receive updates qui
 
 <a id="x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-AGENT-22-29-20PACKAGE-29"></a>
 
-#### [package](f3b0) `40ants-ai-agents/ai-agent`
+#### [package](ad73) `40ants-ai-agents/ai-agent`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -57,13 +57,13 @@ You can install this library from Quicklisp, but you want to receive updates qui
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20CLASS-29"></a>
 
-###### [class](10b2) `40ants-ai-agents/ai-agent:ai-agent` ()
+###### [class](f50c) `40ants-ai-agents/ai-agent:ai-agent` ()
 
 **Readers**
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAGENT-COMPLETER-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-29-29"></a>
 
-###### [reader](0b59) `40ants-ai-agents/ai-agent:agent-completer` (ai-agent) (:completer)
+###### [reader](3c42) `40ants-ai-agents/ai-agent:agent-completer` (ai-agent) (:completer)
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-AGENT-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -71,7 +71,7 @@ You can install this library from Quicklisp, but you want to receive updates qui
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-AGENT-3AAI-AGENT-20FUNCTION-29"></a>
 
-##### [function](f75b) `40ants-ai-agents/ai-agent:ai-agent` PROMPT &KEY TOOLS (MODEL "deepseek-chat") ENDPOINT
+##### [function](401d) `40ants-ai-agents/ai-agent:ai-agent` PROMPT &KEY TOOLS (MODEL "deepseek-chat") ENDPOINT
 
 Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 `MODEL` selects the `LLM` model (default: "deepseek-chat").
@@ -83,7 +83,7 @@ Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 
 <a id="x-28-23A-28-2827-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FAI-MESSAGE-22-29-20PACKAGE-29"></a>
 
-#### [package](f52c) `40ants-ai-agents/ai-message`
+#### [package](ef7d) `40ants-ai-agents/ai-message`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -95,13 +95,13 @@ Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20CLASS-29"></a>
 
-###### [class](de4c) `40ants-ai-agents/ai-message:ai-message` (message)
+###### [class](7ba0) `40ants-ai-agents/ai-message:ai-message` (message)
 
 **Readers**
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-29-29"></a>
 
-###### [reader](716e) `40ants-ai-agents/ai-message:ai-message-text` (ai-message) (:text)
+###### [reader](d8e0) `40ants-ai-agents/ai-message:ai-message-text` (ai-message) (:text)
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FAI-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -109,7 +109,7 @@ Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 
 <a id="x-2840ANTS-AI-AGENTS-2FAI-MESSAGE-3AAI-MESSAGE-20FUNCTION-29"></a>
 
-##### [function](d62f) `40ants-ai-agents/ai-message:ai-message` text
+##### [function](9baf) `40ants-ai-agents/ai-message:ai-message` text
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FGENERICS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -117,7 +117,7 @@ Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 
 <a id="x-28-23A-28-2825-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FGENERICS-22-29-20PACKAGE-29"></a>
 
-#### [package](7547) `40ants-ai-agents/generics`
+#### [package](1f06) `40ants-ai-agents/generics`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FGENERICS-3FGenerics-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -125,13 +125,13 @@ Create an `AI` agent with the given system `PROMPT` and optional `TOOLS` list.
 
 <a id="x-2840ANTS-AI-AGENTS-2FGENERICS-3AADD-MESSAGE-20GENERIC-FUNCTION-29"></a>
 
-##### [generic-function](46c2) `40ants-ai-agents/generics:add-message` state message
+##### [generic-function](a2a9) `40ants-ai-agents/generics:add-message` state message
 
 Adds a message to the state and returns the new state object.
 
 <a id="x-2840ANTS-AI-AGENTS-2FGENERICS-3APROCESS-20GENERIC-FUNCTION-29"></a>
 
-##### [generic-function](92f7) `40ants-ai-agents/generics:process` agent state
+##### [generic-function](b12a) `40ants-ai-agents/generics:process` agent state
 
 Processing state by the agent.
 
@@ -141,7 +141,7 @@ Processing state by the agent.
 
 <a id="x-28-23A-28-2824-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FMESSAGE-22-29-20PACKAGE-29"></a>
 
-#### [package](4e89) `40ants-ai-agents/message`
+#### [package](2753) `40ants-ai-agents/message`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FMESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -153,7 +153,7 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FMESSAGE-3AMESSAGE-20CLASS-29"></a>
 
-###### [class](6689) `40ants-ai-agents/message:message` ()
+###### [class](a725) `40ants-ai-agents/message:message` ()
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FSTATE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -161,7 +161,7 @@ Processing state by the agent.
 
 <a id="x-28-23A-28-2822-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FSTATE-22-29-20PACKAGE-29"></a>
 
-#### [package](9dcd) `40ants-ai-agents/state`
+#### [package](202d) `40ants-ai-agents/state`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -173,13 +173,13 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20CLASS-29"></a>
 
-###### [class](440e) `40ants-ai-agents/state:state` ()
+###### [class](22b5) `40ants-ai-agents/state:state` ()
 
 **Readers**
 
 <a id="x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-MESSAGES-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FSTATE-3ASTATE-29-29"></a>
 
-###### [reader](84e5) `40ants-ai-agents/state:state-messages` (state) (:messages = nil)
+###### [reader](4c6e) `40ants-ai-agents/state:state-messages` (state) (:messages = nil)
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FSTATE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -187,7 +187,7 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FSTATE-3ASTATE-20FUNCTION-29"></a>
 
-##### [function](e74e) `40ants-ai-agents/state:state` messages
+##### [function](42da) `40ants-ai-agents/state:state` messages
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -195,7 +195,7 @@ Processing state by the agent.
 
 <a id="x-28-23A-28-2829-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FUSER-MESSAGE-22-29-20PACKAGE-29"></a>
 
-#### [package](d2e3) `40ants-ai-agents/user-message`
+#### [package](a644) `40ants-ai-agents/user-message`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FClasses-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -207,13 +207,13 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20CLASS-29"></a>
 
-###### [class](07ee) `40ants-ai-agents/user-message:user-message` (message)
+###### [class](5eca) `40ants-ai-agents/user-message:user-message` (message)
 
 **Readers**
 
 <a id="x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-TEXT-20-2840ANTS-DOC-2FLOCATIVES-3AREADER-2040ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-29-29"></a>
 
-###### [reader](79b0) `40ants-ai-agents/user-message:user-message-text` (user-message) (:text)
+###### [reader](a549) `40ants-ai-agents/user-message:user-message-text` (user-message) (:text)
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FUSER-MESSAGE-3FFunctions-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -221,7 +221,7 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FUSER-MESSAGE-3AUSER-MESSAGE-20FUNCTION-29"></a>
 
-##### [function](683e) `40ants-ai-agents/user-message:user-message` text
+##### [function](c538) `40ants-ai-agents/user-message:user-message` text
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-4040ANTS-AI-AGENTS-2FVARS-3FPACKAGE-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -229,7 +229,7 @@ Processing state by the agent.
 
 <a id="x-28-23A-28-2821-29-20BASE-CHAR-20-2E-20-2240ANTS-AI-AGENTS-2FVARS-22-29-20PACKAGE-29"></a>
 
-#### [package](2dc4) `40ants-ai-agents/vars`
+#### [package](1608) `40ants-ai-agents/vars`
 
 <a id="x-2840ANTS-AI-AGENTS-DOCS-2FINDEX-3A-3A-7C-4040ANTS-AI-AGENTS-2FVARS-3FVariables-SECTION-7C-2040ANTS-DOC-2FLOCATIVES-3ASECTION-29"></a>
 
@@ -237,7 +237,7 @@ Processing state by the agent.
 
 <a id="x-2840ANTS-AI-AGENTS-2FVARS-3A-2AAPI-KEY-2A-20-28VARIABLE-29-29"></a>
 
-##### [variable](dcfa) `40ants-ai-agents/vars:*api-key*` -unbound-
+##### [variable](5020) `40ants-ai-agents/vars:*api-key*` -unbound-
 
 Set this token to use `AI`.
 
@@ -245,29 +245,29 @@ Set this token to use `AI`.
 [ae69]: https://40ants.com/ai-agents/
 [b834]: https://github.com/40ants/ai-agents
 [e1ad]: https://github.com/40ants/ai-agents/actions
-[f3b0]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-agent.lisp#L1
-[10b2]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-agent.lisp#L25
-[0b59]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-agent.lisp#L26
-[f75b]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-agent.lisp#L58
-[f52c]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-message.lisp#L1
-[de4c]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-message.lisp#L10
-[716e]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-message.lisp#L11
-[d62f]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/ai-message.lisp#L16
-[7547]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/generics.lisp#L1
-[46c2]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/generics.lisp#L12
-[92f7]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/generics.lisp#L8
-[4e89]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/message.lisp#L1
-[6689]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/message.lisp#L7
-[9dcd]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/state.lisp#L1
-[440e]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/state.lisp#L15
-[84e5]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/state.lisp#L16
-[e74e]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/state.lisp#L24
-[d2e3]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/user-message.lisp#L1
-[07ee]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/user-message.lisp#L10
-[79b0]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/user-message.lisp#L11
-[683e]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/user-message.lisp#L16
-[2dc4]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/vars.lisp#L1
-[dcfa]: https://github.com/40ants/ai-agents/blob/b74e7d95431c7acb5b48097c35dc475717481736/src/vars.lisp#L9
+[ad73]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-agent.lisp#L1
+[f50c]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-agent.lisp#L25
+[3c42]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-agent.lisp#L26
+[401d]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-agent.lisp#L58
+[ef7d]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-message.lisp#L1
+[7ba0]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-message.lisp#L10
+[d8e0]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-message.lisp#L11
+[9baf]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/ai-message.lisp#L16
+[1f06]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/generics.lisp#L1
+[a2a9]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/generics.lisp#L12
+[b12a]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/generics.lisp#L8
+[2753]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/message.lisp#L1
+[a725]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/message.lisp#L7
+[202d]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/state.lisp#L1
+[22b5]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/state.lisp#L15
+[4c6e]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/state.lisp#L16
+[42da]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/state.lisp#L24
+[a644]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/user-message.lisp#L1
+[5eca]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/user-message.lisp#L10
+[a549]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/user-message.lisp#L11
+[c538]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/user-message.lisp#L16
+[1608]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/vars.lisp#L1
+[5020]: https://github.com/40ants/ai-agents/blob/1f4e3c7e6baa8e7c565d5284b88d88d000657171/src/vars.lisp#L9
 [8059]: https://github.com/40ants/ai-agents/issues
 [26ac]: https://quickdocs.org/completions
 [c41d]: https://quickdocs.org/serapeum
